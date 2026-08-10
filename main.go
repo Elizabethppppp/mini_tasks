@@ -8,19 +8,28 @@ type Person struct {
 	Addr Address
 }
 
+type Group struct {
+	Name    string
+	Members []string
+}
+
 func main() {
 
-	p1 := Person{
-		Name: "Alice",
-		Addr: Address{
-			City:   "Moscow",
-			Street: "Tverskaya",
-		},
+	p := &Person{Name: "John", Addr: Address{City: "San Francisco, USA"}}
+	fmt.Println(p.Name)
+
+	//срез анонимных структур
+	/*people := []struct {
+		Name string
+		Age  int
+	}{
+		{Name: "Alice", Age: 30},
+		{Name: "Bob", Age: 25},
+		{Name: "Charlie", Age: 35},
 	}
-	fmt.Println(p1)
-	fmt.Println(p1.Addr.City)
-	p1.Addr.Street = "Nevski"
-	fmt.Println(p1)
+	for _, p := range people {
+		fmt.Println(p.Name, p.Age)
+	}*/
 
 	//анонимные функции
 

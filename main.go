@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 type Address struct{ City, Street string }
 type Person struct {
 	Name string
@@ -15,8 +13,33 @@ type Group struct {
 
 func main() {
 
-	p := &Person{Name: "John", Addr: Address{City: "San Francisco, USA"}}
-	fmt.Println(p.Name)
+
+
+	//any
+
+	/*var x any
+
+	x = 1
+	fmt.Printf("int: %T", x)
+	fmt.Println()
+	x = "hello"
+	fmt.Printf("string: %T", x)
+	fmt.Println()
+	x = []int{1, 2, 3}
+	fmt.Printf("[]int: %T", x)
+	fmt.Println()
+	x = Circle{4}
+	fmt.Printf("my struct Circle: %T", x)
+	fmt.Println()
+	x = nil
+	fmt.Printf("nil: %T", x)
+	fmt.Println()
+
+
+	val,ok:=x.(int)
+	if ok{
+		fmt.Println(val+1)
+	}*/
 
 	//срез анонимных структур
 	/*people := []struct {

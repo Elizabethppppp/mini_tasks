@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Address struct{ City, Street string }
 type Person struct {
 	Name string
@@ -13,7 +15,85 @@ type Group struct {
 
 func main() {
 
-	process1()
+	ch := make(chan int, 3)
+	ch <- 1
+	ch <- 2
+	ch <- 3
+
+	close(ch)
+	for val := range ch {
+
+		fmt.Println(val)
+	}
+
+	//gorutine with receive
+	/*group := sync.WaitGroup{}
+	group.Add(1)
+	ch := make(chan int, 1)
+	ch <- 1
+	go func() {
+		defer group.Done()
+		val := <-ch
+		fmt.Println(val)
+	}()
+	group.Wait()*/
+
+	//gorutine send
+	/*ch := make(chan int)
+	go func() {
+		ch <- 1
+	}()
+	fmt.Println(<-ch)*/
+
+	//with bufer
+	/*ch := make(chan int, 1)
+	ch <- 1
+	fmt.Println(<-ch)*/
+
+	//gorutine 2
+	/*result := make([]int, 5)
+	group := sync.WaitGroup{}
+	group.Add(5)
+	go func(index int) {
+		defer group.Done()
+		result[index] = 0
+
+	}(0)
+	go func(index int) {
+		defer group.Done()
+		result[index] = 1
+
+	}(1)
+	go func(index int) {
+		defer group.Done()
+		result[index] = 2
+
+	}(2)
+	go func(index int) {
+		defer group.Done()
+		result[index] = 3
+
+	}(3)
+	go func(index int) {
+		defer group.Done()
+		result[index] = 4
+
+	}(4)
+
+	group.Wait()
+	for k, v := range result {
+		fmt.Printf("index: %d, value: %d ", k, v)
+	}*/
+
+	//gorutine
+
+	/*group := sync.WaitGroup{}
+	group.Add(1)
+	go func() {
+		defer group.Done()
+		fmt.Println("привет")
+	}()
+	group.Wait()*/
 
 	//any
 

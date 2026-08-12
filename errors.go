@@ -35,6 +35,9 @@ func ReadAge(s string) (int, error) {
 }
 
 func process(s string) string {
+	defer func() {
+		fmt.Printf("Ending processing %s\n", s)
+	}()
 	n, err := strconv.Atoi(s)
 	if err != nil {
 		return "err"

@@ -1,10 +1,5 @@
 package main
 
-import (
-	"errors"
-	"fmt"
-)
-
 type Address struct{ City, Street string }
 type Person struct {
 	Name string
@@ -18,9 +13,7 @@ type Group struct {
 
 func main() {
 
-	err := errors.New("что-то пошло не так")
-	fmt.Println(err)
-	fmt.Printf("%T", err)
+	process1()
 
 	//any
 

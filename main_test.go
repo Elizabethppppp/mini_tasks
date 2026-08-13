@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"slices"
 	"testing"
 )
@@ -188,6 +189,34 @@ func TestReadAge(t *testing.T) {
 				t.Errorf("ReadAge(%q) ожидалась ошибка, но вернулась nil", tt.s)
 			}
 
+		})
+	}
+}
+
+func TestCountWords(t *testing.T) {
+	tests := []struct {
+		name string
+		s    string
+		want map[string]int
+	}{
+		{
+			name: "русские слова",
+			s:    "го го го учит го",
+			want: map[string]int{"го": 4, "учит": 1},
+		},
+		{
+			name: "",
+			s:    "",
+			want: map[string]int{},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := CountWords(tt.s)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Freq(%q) = %v, want %v", tt.s, got, tt.want)
+			}
 		})
 	}
 }

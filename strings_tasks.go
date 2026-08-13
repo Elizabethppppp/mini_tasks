@@ -3,7 +3,30 @@ package main
 import (
 	"strings"
 	"unicode"
+	"unicode/utf8"
 )
+
+func Ends(s string) (first, last rune) {
+
+	first, _ = utf8.DecodeRuneInString(s)
+	last, _ = utf8.DecodeLastRuneInString(s)
+
+	return first, last
+}
+
+func Vowels(s string) int {
+	r := "AEIOUYaeiouyАУЕЁЭОЫЯИЮёуеэоаыяию"
+	count := 0
+
+	for _, val := range r {
+		if strings.ContainsRune(s, val) == true {
+			count++
+			continue
+		}
+	}
+
+	return count
+}
 
 func IsPalindrome(s string) bool {
 	if s == "" {

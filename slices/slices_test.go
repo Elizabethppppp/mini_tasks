@@ -1,6 +1,7 @@
 package slices
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -218,6 +219,97 @@ func TestInsertAt1(t *testing.T) {
 			got := InsertAt1(tt.s, tt.i, tt.v)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("InsertAt1(%v, %d, %d) = %v, want %v", tt.s, tt.i, tt.v, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestInsertAt2(t *testing.T) {
+	tests := []struct {
+		name string
+		s    []int
+		i    int
+		v    int
+		want []int
+	}{
+		{
+			name: "в начало",
+			s:    []int{1, 2, 4},
+			i:    0,
+			v:    3,
+			want: []int{3, 1, 2, 4},
+		},
+		{
+			name: "в середину",
+			s:    []int{1, 2, 4},
+			i:    2,
+			v:    3,
+			want: []int{1, 2, 3, 4},
+		},
+		{
+			name: "в конец",
+			s:    []int{1, 2, 3, 4, 5, 6},
+			i:    6,
+			v:    7,
+			want: []int{1, 2, 3, 4, 5, 6, 7},
+		},
+		{
+			name: "в пустой срез",
+			s:    []int{},
+			i:    0,
+			v:    1,
+			want: []int{1},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := InsertAt2(tt.s, tt.i, tt.v)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("InsertAt1(%v, %d, %d) = %v, want %v", tt.s, tt.i, tt.v, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestFilterEven(t *testing.T) {
+	tests := []struct {
+		name string
+		s    []int
+		want []int
+	}{
+		{
+			name: "чётные маленткие",
+			s:    []int{1, 2, 4},
+			want: []int{2, 4},
+		},
+		{
+			name: "чётные длинные",
+			s:    []int{1, 2, 4, 50, 22},
+			want: []int{2, 4, 50, 22},
+		},
+		{
+			name: "ничего",
+			s:    []int{1, 3, 5},
+			want: []int{},
+		},
+		{
+			name: "в пустой срез",
+			s:    []int{},
+			want: []int{},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			addrBefore := fmt.Sprintf("%p", tt.s)
+			got := FilterEven(tt.s)
+			addrAfter := fmt.Sprintf("%p", got)
+			if addrBefore != addrAfter {
+				t.Errorf("адрес изменился: до %s, после %s", addrBefore, addrAfter)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("InsertAt1(%d) = %d, want %d", tt.s, got, tt.want)
 			}
 		})
 	}

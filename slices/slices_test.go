@@ -314,3 +314,109 @@ func TestFilterEven(t *testing.T) {
 		})
 	}
 }
+
+func TestRotate(t *testing.T) {
+	tests := []struct {
+		name string
+		s    []int
+		i    int
+		want []int
+	}{
+		{
+			name: "1",
+			s:    []int{1, 2, 4},
+			i:    1,
+			want: []int{2, 4, 1},
+		},
+		{
+			name: "2",
+			s:    []int{1, 2, 3, 4, 5},
+			i:    2,
+			want: []int{3, 4, 5, 1, 2},
+		},
+		{
+			name: "k равно длине",
+			s:    []int{1, 2, 3, 4, 5, 6},
+			i:    6,
+			want: []int{1, 2, 3, 4, 5, 6},
+		},
+		{
+			name: "пустой срез",
+			s:    []int{},
+			want: []int{},
+		},
+		{
+			name: "0",
+			s:    []int{1, 2, 3},
+			i:    0,
+			want: []int{1, 2, 3},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			original := make([]int, len(tt.s))
+			copy(original, tt.s)
+			Rotate(tt.s, tt.i)
+			if !reflect.DeepEqual(tt.s, tt.want) {
+				t.Errorf("Rotate(%v, %d) = %v, want %v", original, tt.i, tt.s, tt.want)
+			}
+		})
+	}
+}
+
+func TestStackTable(t *testing.T) {
+	tests := []struct {
+		name     string
+		pushes   []int
+		pops     int
+		wantVals []int
+		wantOk   []bool
+		wantLen  int
+	}{
+		{
+			name:     "Push 1,2,3 и Pop все",
+			pushes:   []int{1, 2, 3},
+			pops:     3,
+			wantVals: []int{3, 2, 1},
+			wantOk:   []bool{true, true, true},
+			wantLen:  0,
+		},
+		{
+			name:     "Pop из пустого",
+			pushes:   []int{},
+			pops:     1,
+			wantVals: []int{0},
+			wantOk:   []bool{false},
+			wantLen:  0,
+		},
+		{
+			name:     "Push после Pop",
+			pushes:   []int{1, 2, 3},
+			pops:     4,
+			wantVals: []int{3, 2, 1, 0},
+			wantOk:   []bool{true, true, true, false},
+			wantLen:  0,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			s := &Stack{}
+			for _, v := range tt.pushes {
+				s.Push(v)
+			}
+			for i := 0; i < tt.pops; i++ {
+				val, ok := s.Pop()
+				if val != tt.wantVals[i] || ok != tt.wantOk[i] {
+					t.Errorf("Pop() #%d = %d, %v, want %d, %v",
+						i, val, ok, tt.wantVals[i], tt.wantOk[i])
+				}
+			}
+
+			if s.Len() != tt.wantLen {
+				t.Errorf("Len() = %d, want %d", s.Len(), tt.wantLen)
+			}
+		})
+	}
+}

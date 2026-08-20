@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 type Address struct{ City, Street string }
 type Person struct {
 	Name string
@@ -15,7 +13,37 @@ type Group struct {
 
 func main() {
 
-	ch := make(chan int, 3)
+	//18 B map module
+	/*m := make(map[int]int)
+	m[0] = 1
+	m[1] = 2
+	m[2] = 3
+	m[3] = 4
+	m[4] = 5
+	m[5] = 6
+	m[6] = 7
+
+	fmt.Println(m)
+
+	for k := range m {
+		if k == 3 {
+			delete(m, k)
+		}
+	}
+
+	fmt.Println(m)
+
+	for k := range m {
+		if k == 5 {
+			m[7] = 8
+			m[8] = 9
+		}
+	}
+
+	fmt.Println(m)*/
+
+	//channels
+	/*ch := make(chan int, 3)
 	ch <- 1
 	ch <- 2
 	ch <- 3
@@ -24,7 +52,7 @@ func main() {
 	for val := range ch {
 
 		fmt.Println(val)
-	}
+	}*/
 
 	//gorutine with receive
 	/*group := sync.WaitGroup{}

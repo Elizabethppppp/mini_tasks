@@ -150,3 +150,50 @@ func TestParsePointInto(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkSumVal(b *testing.B) {
+	data := Big{}
+	for i := 0; i < len(data); i++ {
+		data[i] = i
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		SumVal(data)
+	}
+}
+
+func BenchmarkSumPtr(b *testing.B) {
+	data := Big{}
+	for i := 0; i < len(data); i++ {
+		data[i] = i
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		SumPtr(&data)
+	}
+}
+
+func TestResetAndRedirect(t *testing.T) {
+	x := 10
+	y := 20
+	p := &x
+
+	Redirect(&p, &y)
+	if *p != 20 {
+		t.Fatalf("после Redirect: *p должно быть 20, получено %d", *p)
+	}
+
+	Reset(&p)
+	if p != nil {
+		t.Fatalf("после Reset: p должен быть nil, получен %v", p)
+	}
+
+	if x != 10 {
+		t.Errorf("x должен быть 10, получено %d", x)
+	}
+	if y != 20 {
+		t.Errorf("y должен быть 20, получено %d", y)
+	}
+}

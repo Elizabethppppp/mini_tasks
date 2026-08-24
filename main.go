@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+	"io"
+	"strings"
+)
+
 type Address struct{ City, Street string }
 type Person struct {
 	Name string
@@ -11,7 +17,37 @@ type Group struct {
 	Members []string
 }
 
+type CountingWriter struct{ N int }
+
+func (w *CountingWriter) Write(p []byte) (int, error) {
+	w.N += len(p)
+	return len(p), nil
+}
+
+type UpperReader struct{ src io.Reader }
+
+func (u *UpperReader) Read(p []byte) (int, error) {
+	n, err := u.src.Read(p)
+	if err != nil {
+		return n, err
+	}
+
+	for i := 0; i < n; i++ {
+		if p[i] >= 'a' && p[i] <= 'z' {
+			p[i] -= 'a' - 'A'
+		}
+	}
+	return n, nil
+}
+
 func main() {
+
+	cw := CountingWriter{}
+	fmt.Fprintf(&cw, "привет, %s!", "мир")
+	fmt.Printf("Записано байт: %d\n", cw.N)
+
+	data, _ := io.ReadAll(&UpperReader{strings.NewReader("go go go")})
+	fmt.Println(string(data))
 
 	//18 task methordStruct B
 	/*//m := map[string]methordStruct.Counter{"a": {}}

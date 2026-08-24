@@ -13,6 +13,45 @@ type Group struct {
 
 func main() {
 
+	//18 task methordStruct B
+	/*//m := map[string]methordStruct.Counter{"a": {}}
+	//m["a"].Inc()                  // (а) нет, не адресуемое
+	//methordStruct.Counter{}.Inc() // (б) нет, не адресуемое
+	c := methordStruct.Counter{}
+	c.Inc() // (в) всё хорошо, так как переменная */
+
+	///16 task methordStruct B
+	/*dog := methordStruct.Dog{
+		Animal: methordStruct.Animal{Name: "Lola"},
+		Breed:  "shpiz",
+	}
+
+	fmt.Println(dog.Animal.Name)
+	fmt.Println(dog.Name)
+	fmt.Println(dog.Breed)
+	fmt.Println(dog.Describe())
+	fmt.Println(dog.Animal.Describe())*/
+
+	//14 task methordStruct B
+	/*p := methordStruct.Point{X: 3, Y: 4}
+	fmt.Println(p)
+
+	f := p.Dist
+	fmt.Printf("type %T", f)
+	fmt.Println()
+	g := methordStruct.Point.Dist
+	fmt.Printf("type %T", g)
+	fmt.Println()*/
+
+	/*fmt.Println(p.Dist())
+	fmt.Println(methordStruct.Dist2(p))
+
+	p.MoveWrong(5, 6)
+	fmt.Println(p)
+
+	p.Move(5, 6)
+	fmt.Println(p)*/
+
 	//18 B map module
 	/*m := make(map[int]int)
 	m[0] = 1

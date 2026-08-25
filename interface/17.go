@@ -24,11 +24,16 @@ type Deleter interface {
 func Backup(s interface {
 	Keyser
 	Loader
-}) error
+}) error {
+	return nil
+}
 
-func Exists(s Loader, k string) bool
+func Exists(s Loader, k string) bool {
+	return false
+}
 
 func Purge(s interface {
 	Keyser
 	Deleter
-})
+}) {
+}

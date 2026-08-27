@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"io"
-	"strings"
 )
 
 type Address struct{ City, Street string }
@@ -42,12 +40,32 @@ func (u *UpperReader) Read(p []byte) (int, error) {
 
 func main() {
 
-	cw := CountingWriter{}
+	//11 myErrors B
+	/*base := &myErrors.OutOfRange{
+		Value: 150,
+		Min:   100,
+		Max:   0,
+	}
+
+	layer1 := fmt.Errorf("проверка 1: %w", base)
+	layer2 := fmt.Errorf("проверка 2: %w", layer1)
+
+	err := layer2
+
+	var result *myErrors.OutOfRange
+	if errors.As(err, &result) {
+		fmt.Printf("Нашли ошибку\n")
+		fmt.Printf("Допустимо от %d до %d, получено %d\n", result.Min, result.Max, result.Value)
+	} else {
+		fmt.Println("Не найдено")
+	}*/
+
+	/*cw := CountingWriter{}
 	fmt.Fprintf(&cw, "привет, %s!", "мир")
 	fmt.Printf("Записано байт: %d\n", cw.N)
 
 	data, _ := io.ReadAll(&UpperReader{strings.NewReader("go go go")})
-	fmt.Println(string(data))
+	fmt.Println(string(data))*/
 
 	//18 task methordStruct B
 	/*//m := map[string]methordStruct.Counter{"a": {}}

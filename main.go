@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io"
 )
@@ -112,10 +113,68 @@ func e() {
 	panic(ValidationBug{Field: "panic d"})
 }
 
+func f() (result int) {
+	defer func() { result *= 2 }()
+	return 5
+}
+func g() (err error) {
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("в функции g: %w", err)
+		}
+	}()
+	return errors.New("дно")
+}
+
+func SafeCall(f func()) (err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = fmt.Errorf("паника: %v", r)
+		}
+	}()
+	f()
+	return nil
+}
+
 func main() {
 
-	defer fmt.Println("main")
-	a()
+	//17 defer B
+	//неверное утверждение типа
+	/*var i interface{} = "привет"
+	n := i.(int)
+	fmt.Println(n)*/
+	//деление на 0
+	/*a := 10 / 0
+	fmt.Println(a)*/
+	//запись в nil-мапу
+	/*m := make(map[string]int)
+	m = nil
+	m["a"] = 1*/
+	//разыменование nil
+	/*var p *int
+	_ = *p*/
+	//выход за границу среза
+	/*slice := []int{10, 20, 30}
+	_ = slice[3]*/
+
+	//14 defer B
+	/*err := SafeCall(func() {
+		var slice []int
+		_ = slice[1]
+	})
+
+	err := SafeCall(func() {
+		s := 1
+		fmt.Println(s)
+	})
+
+	if err != nil {
+		fmt.Println("Перехвачена паника:", err)
+	}*/
+
+	//9-13 defer B
+	//defer fmt.Println("main")
+	//a()
 
 	//11 myErrors B
 	/*base := &myErrors.OutOfRange{

@@ -136,7 +136,43 @@ func SafeCall(f func()) (err error) {
 	return nil
 }
 
+func producer(ch chan<- int) {
+	for i := 1; i <= 5; i++ {
+		ch <- i
+	}
+	close(ch)
+}
+
+func consumer(ch <-chan int) {
+	for val := range ch {
+		fmt.Println(val)
+	}
+}
+
 func main() {
+
+	//12 goroutines B
+	/*ch := make(chan int) // канал небуферезванный
+
+	go producer(ch)
+	consumer(ch)*/
+
+	/*ch := make(chan int) // канал буферезванный
+
+	producer(ch)
+	consumer(ch)*/
+
+	//9 goroutines B
+	/*ch := make(chan int, 5)
+
+	for i := 1; i <= 5; i++ {
+		ch <- i
+	}
+	close(ch)
+
+	for val := range ch {
+		fmt.Println(val)
+	}*/
 
 	//17 defer B
 	//неверное утверждение типа

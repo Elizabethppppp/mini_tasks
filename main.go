@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 )
 
@@ -38,7 +39,83 @@ func (u *UpperReader) Read(p []byte) (int, error) {
 	return n, nil
 }
 
+func a() {
+	defer fmt.Println("a")
+	b()
+}
+
+// на этаж выше
+func b() {
+	defer fmt.Println("b")
+	/*defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("Перехвачено на этаж выше! Ошибка: %v\n", r)
+		}
+	}()*/
+	c()
+}
+
+// recover в defer и в теле функции
+func c() {
+	defer fmt.Println("c")
+	/*defer func() {
+		if r := recover(); r != nil {
+			fmt.Printf("Перехвачено сразу! Ошибка: %v\n", r)
+		}
+	}()*/
+	if r := recover(); r != nil {
+		fmt.Printf("В теле функции! Ошибка: %v\n", r)
+	}
+	//panic("test")
+	d()
+}
+
+type ValidationBug struct{ Field string }
+
+func d() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Паника перехвачена!")
+			switch v := r.(type) {
+			case ValidationBug:
+				fmt.Printf("Поле Field: %s\n", v.Field)
+			case string:
+				fmt.Printf("Строковая паника: %s\n", v)
+			case int:
+				fmt.Printf("Числовая паника: %d\n", v)
+			default:
+				fmt.Printf("Неизвестный тип паники: %v (тип: %T)\n", r, r)
+			}
+		}
+	}()
+	//panic(ValidationBug{Field: "panic d"})
+	e()
+}
+
+func e() {
+	defer func() {
+		if err := recover(); err != nil {
+			switch v := err.(type) {
+			case ValidationBug:
+				fmt.Println("Перехвачена нужная паника:", v.Field)
+
+			case string:
+				panic(err)
+			case int:
+				panic(err)
+			default:
+				panic(err)
+			}
+		}
+	}()
+
+	panic(ValidationBug{Field: "panic d"})
+}
+
 func main() {
+
+	defer fmt.Println("main")
+	a()
 
 	//11 myErrors B
 	/*base := &myErrors.OutOfRange{

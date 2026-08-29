@@ -170,6 +170,64 @@ func worker(id int, done <-chan struct{}, wg *sync.WaitGroup) {
 
 func main() {
 
+	//19 goroutines B
+	/*fmt.Printf("Горутин ДО: %d\n", runtime.NumGoroutine())
+
+	for i := 0; i < 100; i++ {
+		ch := make(chan int)
+
+		go func(id int, ch chan int) {
+			fmt.Printf("Воркер %d: начал работу\n", id)
+			time.Sleep(200 * time.Millisecond)
+			fmt.Printf("Воркер %d: завершил работу\n", id)
+			ch <- id
+			fmt.Printf("  ▶️ Воркер %d: \n", id)
+		}(i, ch)
+
+		select {
+		case result := <-ch:
+			fmt.Printf("Получен результат: %d\n", result)
+		case <-time.After(100 * time.Millisecond):
+			fmt.Println("Timeout")
+		}
+	}
+
+	time.Sleep(500 * time.Millisecond)
+	fmt.Printf("Горутин ПОСЛЕ: %d\n", runtime.NumGoroutine())*/
+
+	//18 goroutines B
+	/*counter := 0
+	ch := make(chan int, 1000)
+	var wg sync.WaitGroup
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			ch <- 1
+		}()
+	}
+
+	go func() {
+		wg.Wait()
+		close(ch)
+	}()
+
+	for val := range ch {
+		counter += val
+	}
+
+	fmt.Println(counter)*/
+
+	//17 goroutines B
+	/*counter := 0
+	var wg sync.WaitGroup
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go func() { defer wg.Done(); counter++ }()
+	}
+	wg.Wait()
+	fmt.Println(counter)*/
+
 	//16 goroutines B
 	/*ch1 := make(chan int)
 

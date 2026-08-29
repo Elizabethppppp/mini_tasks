@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"sync"
+	"time"
 )
 
 type Address struct{ City, Street string }
@@ -149,7 +151,78 @@ func consumer(ch <-chan int) {
 	}
 }
 
+func worker(id int, done <-chan struct{}, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	fmt.Printf("worker %d start\n", id)
+
+	for {
+		select {
+		case <-done:
+			fmt.Printf("worker %d done\n", id)
+			return
+		default:
+			fmt.Printf("Воркер %d: работаю...\n", id)
+			time.Sleep(500 * time.Millisecond)
+		}
+	}
+}
+
 func main() {
+
+	//15 goroutines B
+
+
+	//14 goroutines B
+	/*ch1 := make(chan int)
+	ch2 := make(chan int)
+
+	go func() {
+
+		for i := 1; i <= 5; i++ {
+			if i%2 != 0 {
+				time.Sleep(1 * time.Second)
+				ch1 <- i
+			}
+		}
+	}()
+
+	go func() {
+
+		for i := 1; i <= 6; i++ {
+			if i%2 == 0 {
+				time.Sleep(2 * time.Second)
+				ch2 <- i
+			}
+
+		}
+	}()
+
+	for i := 0; i < 6; i++ {
+		select {
+		case val1 := <-ch1:
+			fmt.Println("ch1: ", val1)
+		case val2 := <-ch2:
+			fmt.Println("ch2: ", val2)
+		}
+	}*/
+
+	//13 goroutines B
+	/*done := make(chan struct{})
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < 3; i++ {
+		wg.Add(1)
+		go worker(i, done, &wg)
+	}
+
+	fmt.Printf("Горутин всего: %d\n", runtime.NumGoroutine())
+	time.Sleep(2 * time.Second)
+	close(done)
+	wg.Wait()
+
+	fmt.Printf("Горутин после завершения: %d\n", runtime.NumGoroutine())*/
 
 	//12 goroutines B
 	/*ch := make(chan int) // канал небуферезванный

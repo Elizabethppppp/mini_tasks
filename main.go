@@ -170,8 +170,62 @@ func worker(id int, done <-chan struct{}, wg *sync.WaitGroup) {
 
 func main() {
 
-	//15 goroutines B
+	//16 goroutines B
+	/*ch1 := make(chan int)
 
+	go func() {
+		fmt.Println("Start")
+		time.Sleep(200 * time.Millisecond)
+		fmt.Println("End")
+		ch1 <- 1
+	}()
+
+	select {
+	case result := <-ch1:
+		fmt.Println(result)
+	case <-time.After(100 * time.Millisecond):
+		fmt.Println("Timeout")
+	}
+
+	time.Sleep(time.Millisecond)
+	fmt.Println()
+	ch2 := make(chan int)
+
+	go func() {
+		fmt.Println("Start ch2")
+		time.Sleep(200 * time.Millisecond)
+		fmt.Println("End ch2")
+		ch2 <- 1
+	}()
+
+	select {
+	case result2 := <-ch2:
+		fmt.Println(result2)
+	case <-time.After(500 * time.Millisecond):
+		fmt.Println("Timeout")
+	}*/
+
+	//15 goroutines B
+	/*ch := make(chan int, 2)
+
+	  //прочитать из пустого
+	  select {
+	  case val := <-ch:
+	    fmt.Printf("Получено: %d\n ", val)
+	  default:
+	    fmt.Println("Канал пуст")
+	  }
+
+	  //записать в полный
+	  ch <- 10
+	  ch <- 20
+	  select {
+	  case ch <- 30:
+	    fmt.Println("Отправлено")
+	  default:
+	    fmt.Println("Канал заполнен")
+	  }
+	  fmt.Printf("Итоговое содержимое канала: %v\n", []int{<-ch, <-ch})*/
 
 	//14 goroutines B
 	/*ch1 := make(chan int)

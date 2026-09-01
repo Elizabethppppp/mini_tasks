@@ -168,7 +168,68 @@ func worker(id int, done <-chan struct{}, wg *sync.WaitGroup) {
 	}
 }
 
+type Counter struct {
+	mu sync.Mutex
+	n  int
+}
+
+// ошибка: получатель-копия
+func (c Counter) Inc() { c.mu.Lock(); defer c.mu.Unlock(); c.n++ }
+
 func main() {
+
+	//3 sync
+	/*const workers = 4
+
+	var wg sync.WaitGroup
+
+	start := time.Now()
+	fmt.Printf("Горутин до запуска: %d\n", runtime.NumGoroutine())
+
+	for i := 0; i < workers; i++ {
+		wg.Add(1)
+		go workerSlow(i, &wg)
+	}
+
+	wg.Wait()
+
+	elapsed := time.Since(start)
+	fmt.Printf("Горутин после запуска: %d\n", runtime.NumGoroutine())
+	fmt.Printf("Время выполнения: %v\n", elapsed)
+
+	wg = sync.WaitGroup{}
+
+	startB := time.Now()
+	fmt.Printf("Горутин до запуска: %d\n", runtime.NumGoroutine())
+
+	for i := 0; i < workers; i++ {
+		wg.Add(1)
+		go workerFast(i, &wg)
+	}
+
+	fmt.Printf("Горутин после запуска: %d\n", runtime.NumGoroutine())
+	wg.Wait()
+
+	elapsedB := time.Since(startB)
+	fmt.Printf("Горутин после завершения: %d\n", runtime.NumGoroutine())
+	fmt.Printf("Время выполнения быстрого: %v\n", elapsedB)*/
+
+	//1 sync
+	/*counter := 0
+	var mu sync.Mutex
+
+	var wg sync.WaitGroup
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go func() {
+			mu.Lock()
+			defer wg.Done()
+			counter++
+			mu.Unlock()
+		}()
+	}
+	wg.Wait()
+	fmt.Println(counter)*/
 
 	//19 goroutines B
 	/*fmt.Printf("Горутин ДО: %d\n", runtime.NumGoroutine())
